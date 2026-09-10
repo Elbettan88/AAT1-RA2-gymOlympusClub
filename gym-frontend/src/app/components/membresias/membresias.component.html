@@ -1,0 +1,146 @@
+﻿<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 font-sans p-2">
+  <!-- Tarjeta de Emisión de Pases VIP -->
+  <div
+    class="bg-slate-900/40 backdrop-blur-xl p-8 rounded-3xl border border-slate-800/80 shadow-2xl h-fit"
+  >
+    <h2
+      class="text-lg font-bold tracking-widest text-amber-400 uppercase mb-6 flex items-center gap-2"
+    >
+      <span class="w-1.5 h-1.5 bg-amber-400 rounded-full"></span> Asignar Credencial VIP
+    </h2>
+
+    <form (ngSubmit)="guardar()" class="space-y-5">
+      <div>
+        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5"
+          >Seleccionar Atleta</label
+        >
+        <select
+          [(ngModel)]="nuevaMembresia.clienteId"
+          name="clienteId"
+          class="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-400/50 transition-colors appearance-none cursor-pointer"
+          required
+        >
+          <option value="" class="bg-slate-950 text-slate-500">-- Elegir Cuenta de Socio --</option>
+          @for (c of clientes(); track c._id) {
+            <option [value]="c._id" class="bg-slate-950 text-white">
+              {{ c.nombre }} {{ c.apellido }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5"
+            >Categoría Plan</label
+          >
+          <select
+            [(ngModel)]="nuevaMembresia.tipo"
+            name="tipo"
+            class="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-400/50 transition-colors appearance-none cursor-pointer"
+          >
+            <option value="Mensual" class="bg-slate-950">Mensual</option>
+            <option value="Trimestral" class="bg-slate-950">Trimestral</option>
+            <option value="Anual" class="bg-slate-950">Anual</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5"
+            >Tarifa Club (Q)</label
+          >
+          <input
+            [(ngModel)]="nuevaMembresia.precio"
+            name="precio"
+            type="number"
+            placeholder="0.00"
+            class="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-400/50 transition-colors"
+            required
+          />
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5"
+          >Fecha Expiración Pase</label
+        >
+        <input
+          [(ngModel)]="nuevaMembresia.fechaFin"
+          name="fechaFin"
+          type="date"
+          class="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-400 focus:outline-none focus:border-amber-400/50 transition-colors"
+          required
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold uppercase tracking-widest text-xs py-4 rounded-xl transition-all duration-300 shadow-lg shadow-blue-500/10 active:scale-[0.98] mt-2 cursor-pointer"
+      >
+        Emitir Credencial
+      </button>
+    </form>
+  </div>
+
+  <!-- Tabla Historial de Control de Accesos -->
+  <div
+    class="lg:col-span-2 bg-slate-900/20 backdrop-blur-xl p-8 rounded-3xl border border-slate-800/50 shadow-2xl"
+  >
+    <h3
+      class="text-lg font-bold tracking-widest text-slate-300 uppercase mb-6 flex items-center gap-2"
+    >
+      <span class="w-1.5 h-1.5 bg-blue-400 rounded-full"></span> Registro General de Accesos
+    </h3>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr
+            class="border-b border-slate-800/80 text-[10px] font-bold text-slate-500 uppercase tracking-widest"
+          >
+            <th class="pb-4">Socio Titular</th>
+            <th class="pb-4">Nivel Plan</th>
+            <th class="pb-4">Monto Facturado</th>
+            <th class="pb-4">Vencimiento</th>
+            <th class="pb-4">Vigencia</th>
+            <th class="pb-4 text-right">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="text-xs divide-y divide-slate-800/30">
+          @for (m of membresias(); track m._id) {
+            <tr class="hover:bg-slate-800/20 transition-all duration-200">
+              <td class="py-4 font-semibold text-white tracking-wide text-sm">
+                {{ m.clienteId?.nombre }} {{ m.clienteId?.apellido }}
+              </td>
+              <td class="py-4">
+                <span
+                  class="bg-slate-800/80 text-amber-400 border border-slate-700/50 px-2.5 py-1 rounded-md text-[10px] font-bold tracking-widest uppercase"
+                >
+                  {{ m.tipo }}
+                </span>
+              </td>
+              <td class="py-4 font-mono font-bold text-slate-300 text-sm">Q{{ m.precio }}</td>
+              <td class="py-4 text-slate-400 font-mono tracking-wide">
+                {{ m.fechaFin | date: 'dd/MM/yyyy' }}
+              </td>
+              <td class="py-4">
+                <span
+                  class="px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase bg-blue-500/10 text-blue-400 border border-blue-500/20"
+                >
+                  {{ m.estado }}
+                </span>
+              </td>
+              <td class="py-4 text-right">
+                <button
+                  (click)="eliminar(m._id)"
+                  class="text-rose-400 hover:text-white border border-rose-500/20 hover:bg-rose-500 font-medium tracking-widest text-[10px] uppercase px-3 py-2 rounded-xl transition-all duration-300 cursor-pointer"
+                >
+                  Revocar
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

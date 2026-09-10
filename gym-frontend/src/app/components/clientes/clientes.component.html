@@ -1,0 +1,162 @@
+﻿<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 font-sans p-2">
+  <!-- Tarjeta del Formulario (Black Card de Lujo) -->
+  <div
+    class="bg-slate-900/40 backdrop-blur-xl p-8 rounded-3xl border border-slate-800/80 shadow-2xl h-fit"
+  >
+    <h2
+      class="text-lg font-bold tracking-widest text-amber-400 uppercase mb-6 flex items-center gap-2"
+    >
+      <span class="w-1.5 h-1.5 bg-amber-400 rounded-full"></span> Registrar Miembro
+    </h2>
+
+    <form (ngSubmit)="guardar()" class="space-y-5">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5"
+            >Nombre</label
+          >
+          <input
+            [(ngModel)]="nuevoCliente.nombre"
+            name="nombre"
+            type="text"
+            placeholder="Ingresar Nombre"
+            class="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-400/50 transition-colors"
+            required
+          />
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5"
+            >Apellido</label
+          >
+          <input
+            [(ngModel)]="nuevoCliente.apellido"
+            name="apellido"
+            type="text"
+            placeholder="Ingresar Apellido"
+            class="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-400/50 transition-colors"
+            required
+          />
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5"
+          >DPI / Identificación Pasaporte</label
+        >
+        <input
+          [(ngModel)]="nuevoCliente.dpi"
+          name="dpi"
+          type="text"
+          placeholder="0000 00000 0000"
+          class="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white tracking-widest focus:outline-none focus:border-amber-400/50 transition-colors"
+          required
+        />
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5"
+            >Teléfono</label
+          >
+          <input
+            [(ngModel)]="nuevoCliente.telefono"
+            name="telefono"
+            type="text"
+            placeholder="+502 0000-0000"
+            class="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-400/50 transition-colors"
+            required
+          />
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5"
+            >Nacimiento</label
+          >
+          <input
+            [(ngModel)]="nuevoCliente.fechaNacimiento"
+            name="fechaNacimiento"
+            type="date"
+            class="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-400 focus:outline-none focus:border-amber-400/50 transition-colors"
+            required
+          />
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5"
+          >Email de Contacto</label
+        >
+        <input
+          [(ngModel)]="nuevoCliente.correo"
+          name="correo"
+          type="email"
+          placeholder="ingresar Correo Electrónico"
+          class="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-400/50 transition-colors"
+          required
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="w-full bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold uppercase tracking-widest text-xs py-4 rounded-xl transition-all duration-300 shadow-lg shadow-amber-400/10 active:scale-[0.98] mt-2 cursor-pointer"
+      >
+        Dar de Alta
+      </button>
+    </form>
+  </div>
+
+  <!-- Tabla Ejecutiva Corporativa -->
+  <div
+    class="lg:col-span-2 bg-slate-900/20 backdrop-blur-xl p-8 rounded-3xl border border-slate-800/50 shadow-2xl"
+  >
+    <h3
+      class="text-lg font-bold tracking-widest text-slate-300 uppercase mb-6 flex items-center gap-2"
+    >
+      <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span> Miembros Activos
+    </h3>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr
+            class="border-b border-slate-800/80 text-[10px] font-bold text-slate-500 uppercase tracking-widest"
+          >
+            <th class="pb-4">Socio</th>
+            <th class="pb-4">DPI</th>
+            <th class="pb-4">Contacto VIP</th>
+            <th class="pb-4">Estatus</th>
+            <th class="pb-4 text-right">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="text-xs divide-y divide-slate-800/30">
+          @for (c of clientes(); track c._id) {
+            <tr class="hover:bg-slate-800/20 transition-all duration-200 group">
+              <td class="py-4 font-semibold text-white tracking-wide text-sm">
+                {{ c.nombre }} {{ c.apellido }}
+              </td>
+              <td class="py-4 text-slate-400 tracking-wider font-mono">{{ c.dpi }}</td>
+              <td class="py-4">
+                <div class="text-slate-300 font-medium">{{ c.correo }}</div>
+                <div class="text-[10px] text-slate-500 font-mono mt-0.5">{{ c.telefono }}</div>
+              </td>
+              <td class="py-4">
+                <span
+                  class="px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                >
+                  {{ c.estado }}
+                </span>
+              </td>
+              <td class="py-4 text-right">
+                <button
+                  (click)="eliminar(c._id)"
+                  class="text-rose-400 hover:text-white border border-rose-500/20 hover:bg-rose-500 font-medium tracking-widest text-[10px] uppercase px-3 py-2 rounded-xl transition-all duration-300 cursor-pointer"
+                >
+                  Revocar
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
