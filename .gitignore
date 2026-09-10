@@ -1,0 +1,4 @@
+gym-backend/node_modules/
+gym-backend/.env
+gym-frontend/node_modules/
+gym-frontend/.angular/
